@@ -13,7 +13,8 @@ const Home = () => {
   const sendData = async () => {
     const pingurl = "https://dev.api.klaim.yousted.org/api/visitor/store";
     const res = await axiosPrivate.post(pingurl, platform_info);
-    // console.log(res);
+    localStorage.clear();
+    localStorage.setItem("visitor", res.data.data.visitorId);
   };
 
   if (ip !== "") {

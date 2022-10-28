@@ -30,9 +30,24 @@ const Address = ({ setStep }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const user = localStorage.getItem("user");
     const res = await axiosPrivate.post(
       "https://dev.api.klaim.yousted.org/api/prev-user/store",
-      address1Data
+      {
+        user_id: user,
+        previousAddress: {
+          0: {
+            prev_address_line1: address1Data.address_line_1,
+            prev_address_line2: address1Data.address_line_2,
+            prev_address_line3: address1Data.address_line_3,
+          },
+          1: {
+            prev_address_line1: address1Data.address_line_4,
+            prev_address_line2: address1Data.address_line_5,
+            prev_address_line3: address1Data.address_line_6,
+          },
+        },
+      }
     );
     if (res.status === "Success") {
       navigate("/success");
@@ -190,7 +205,7 @@ const Address = ({ setStep }) => {
           </div>
           <div>
             <h1
-              onClick={() => setStep(false)}
+              onClick={() => setStep(true)}
               className="border-b border-blue-600 text-blue-600 my-2 cursor-pointer"
             >
               {`<< Back`}

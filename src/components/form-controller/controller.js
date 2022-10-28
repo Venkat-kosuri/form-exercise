@@ -5,8 +5,9 @@ import Step2 from "../step2";
 const FormController = () => {
   const [step, setStep] = React.useState(1);
   const [formData, setFormData] = React.useState({
-    firstname: "",
-    lastname: "",
+    visitor_id: 1,
+    first_name: "",
+    last_name: "",
     email: "",
     telephone: "",
     day: "",

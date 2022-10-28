@@ -7,27 +7,37 @@ const Step2 = ({ formData, handleChange }) => {
   const [errorMsg, setErrorMsg] = useState("");
   const [data, setData] = React.useState({});
   const navigate = useNavigate();
-  const checkDuplicate = async () => {
-    const post_url = "https://dev.api.klaim.yousted.org/api/duplicate-check";
-    const response = await axiosPrivate.post(post_url, data);
-    setStatusMsg(response.status);
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setData({
+    const items = {
       email: formData.email,
       telephone: formData.telephone,
-    });
-    checkDuplicate();
-    if (statusMsg === "Success") {
-      localStorage.setItem("firstname", formData.firstname);
-      const response = await axiosPrivate.post(
-        "https://dev.api.klaim.yousted.org/api/prev-user/store",
-        formData
+    };
+    console.log(items);
+    const response = await axiosPrivate.post(
+      "https://dev.api.klaim.yousted.org/api/duplicate-check",
+      items
+    );
+    console.log(response);
+    if (response.data.status === "Success") {
+      localStorage.setItem("firstname", formData.first_name);
+      const visitor = localStorage.getItem("visitor");
+      const response2 = await axiosPrivate.post(
+        "https://dev.api.klaim.yousted.org/api/user/store",
+        {
+          visitor_id: visitor,
+          first_name: formData.first_name,
+          last_name: formData.last_name,
+          email: formData.email,
+          telephone: formData.telephone,
+          dob: `${formData.year}-${formData.month}-${formData.day}`,
+        }
       );
       console.log(response);
-      if (response.status === "Success") {
+      if (response2.data.status === "Success") {
+        localStorage.removeItem("visitor");
+        localStorage.setItem("user", response2.data.data.userId);
         navigate("/address");
       } else {
         setErrorMsg("Something went wrong");
@@ -39,7 +49,7 @@ const Step2 = ({ formData, handleChange }) => {
   return (
     <div className="w-7/12 rounded-lg border border-black py-3 px-6 text-lg">
       <form onSubmit={(e) => handleSubmit(e)}>
-        <div className="flex flex-col py-3">
+        <div className="flex flex-col py-2">
           <label className="mb-3">Email Address</label>
           <input
             placeholder="Email Address"
@@ -48,10 +58,13 @@ const Step2 = ({ formData, handleChange }) => {
             required
             value={formData.email}
             onChange={(event) => handleChange(event)}
-            className="w-11/12 border-[0.5px] border-gray-400 focus:border-black rounded-lg p-2"
+            className="w-11/12 flex  peer peer-invalid:border-red-500 border-[0.5px] border-gray-400 focus:border-black rounded-lg p-2"
           />
+          <p className="invisible peer-invalid:visible text-red-700 font-light pt-1">
+            This field cannot be empty
+          </p>
         </div>
-        <div className="flex flex-col py-3">
+        <div className="flex flex-col py-2">
           <label className="mb-3">Phone Number</label>
           <input
             placeholder="Phone Number"
@@ -60,8 +73,11 @@ const Step2 = ({ formData, handleChange }) => {
             value={formData.telephone}
             required
             onChange={(event) => handleChange(event)}
-            className="w-11/12 border-[0.5px] border-gray-400 focus:border-black rounded-lg p-2"
+            className="w-11/12 flex peer peer-invalid:hidden border-[0.5px] border-gray-400 focus:border-black rounded-lg p-2"
           />
+          <p className="invisible peer-invalid:visible text-red-700 font-light pt-1">
+            This field cannot be empty
+          </p>
         </div>
         {errorMsg !== "" && (
           <div>

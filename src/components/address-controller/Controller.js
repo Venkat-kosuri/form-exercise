@@ -3,7 +3,7 @@ import Address from "../address";
 import { Fragment, useState } from "react";
 
 const Controller = () => {
-  const [step, setStep] = useState(false);
+  const [step, setStep] = useState(true);
   return (
     <Fragment>
       {step ? <Page1 setStep={setStep} /> : <Address setStep={setStep} />}

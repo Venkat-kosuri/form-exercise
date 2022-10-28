@@ -9,7 +9,7 @@ const Page1 = ({ setStep }) => {
       <h1 className="py-3 text-2xl">Do you have a Previous Address?</h1>
       <div className="w-full flex flex-col items-center justify-center pb-6">
         <button
-          onClick={() => setStep(true)}
+          onClick={() => setStep(false)}
           className="bg-blue-500 px-36 text-lg my-3 py-3 text-white"
         >
           Yes

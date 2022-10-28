@@ -12,26 +12,32 @@ const Step1 = ({ setStep, handleChange, formData }) => {
     <div className="w-7/12 rounded-lg border border-black py-3 px-6 text-lg">
       <form onSubmit={(e) => handleSubmit(e)}>
         <div className="flex flex-col py-3">
-          <label className="mb-3">First Name</label>
+          <label className="mb-3 peer peer-invalid:flex">First Name</label>
           <input
             placeholder="First Name"
-            name="firstname"
-            value={formData.firstname}
+            name="first_name"
+            value={formData.first_name}
             required
             onChange={(event) => handleChange(event)}
-            className="w-11/12 border-[0.5px] border-gray-400 focus:border-black rounded-lg p-2"
+            className="w-11/12 flex  peer-invalid:border-red-500 border-[0.5px] border-gray-400 focus:border-black rounded-lg p-2"
           />
+          <p className="invisible peer-invalid:visible text-red-700 font-light py-2">
+            This field cannot be empty
+          </p>
         </div>
         <div className="flex flex-col py-3">
           <label className="mb-3">Last Name</label>
           <input
             placeholder="Last Name"
-            name="lastname"
-            value={formData.lastname}
+            name="last_name"
+            value={formData.last_name}
             required
             onChange={(event) => handleChange(event)}
-            className="w-11/12 border-[0.5px] border-gray-400 focus:border-black rounded-lg p-2"
+            className="w-11/12 flex peer-invalid:border-red-500 border-[0.5px] border-gray-400 focus:border-black rounded-lg p-2"
           />
+          <p className="invisible peer-invalid:visible text-red-700 font-light py-2">
+            This field cannot be empty
+          </p>
         </div>
         <div className="relative py-3 w-11/12">
           <div className="py-3">
